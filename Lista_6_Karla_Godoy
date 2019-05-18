@@ -1,0 +1,558 @@
+# Lista 6
+
+# Aluna- Karla Godoy 
+
+require(tidyverse)
+require(magrittr)
+require(ggplot2)
+
+# Exercicio 1
+
+# A
+
+# Variável independente é a variável no modelo que pode explicar Y. 
+
+# B
+
+# Variável dependente, aquilo que você quer entender, explicar ou prever. 
+# O valor da variável dependente depende de como a variável independente é manipulada.
+
+# C
+
+#A relação existente entre a variável independente e a variável independente é que a variável dependente é a resposta à manipulação da variável independente, ou seja, a variável dependente aumenta ou diminui ao passo que a variável independente é modificada. 
+
+# Exercicio 2
+# R: Modelo de Regressão Amostral
+
+# Exercicio 3
+
+# Yi- valor observado da variável dependente
+# α: parâmetro do intercepto estimado- valor de y quando x é 0. 
+# βi: coeficiente de variação / parâmetro de inclinação estimado- angulo da reta. A mudança de beta muda a variável dependente. 
+# Xi: valor observado da variável independente
+# Ui: componente estocástico / aleatório / resíduo / erro amostral
+
+# Exercicio 4
+
+# O componente sistemático da equação é Y = α + β1X1. É sistemático por que 
+
+# Exercicio 5 
+
+# O componente estocástico na equação é o ûi.O componente estocástico pode ser interpretado como a representação da ausência de muitas variáveis que influenciam Y, mas estão omissas no modelo.  
+
+# Exercicio 6
+
+# O Yi é o valor real observado, enquanto o  ^Yi é o valor estimado no modelo produzido. Desta forma, a diferença entre o Yi e o ^Yi é igual ûi, o erro ou componente estocástico. O componente estocástico serve para considerar os desvios dos pontos observados até a reta.
+# Quanto mais próximo o valor estimado for do valor real observado, melhor é o modelo de regressão. Quanto maior for essa distância entre o valor real e o estimado, pior o seu modelo pq o erro vai ser muito maior. 
+
+# Exemplo:
+#  Yi-^Yi=ui. 
+
+# Exercicio 7
+
+# O OLS (Ordinary Least Squares) ou o Método dos Mínimos Quadrados, ou Mínimos Quadrados Ordinários (MQO) é uma técnica matemática que procura encontrar o melhor ajuste para um conjunto de dados tentando minimizar a soma dos quadrados das diferenças entre o valor estimado e os dados observados, dessa forma maximizando o grau de ajuste do modelo aos dados observados.
+
+# Exercicio 8
+
+# A
+
+# EX1:
+  
+#  Lista_6_Karla_Godoy.R
+
+# EX2:
+  
+#  Vote_growth_USA.R
+
+# B
+
+# EX1:
+  
+#  vote.usa
+
+# EX2:
+  
+#  voteUsa
+
+# C
+
+# EX1:
+  
+#  ggplot(mtcars) + 
+#  geom_boxplot(aes(x = as.factor(cyl), y = mpg))
+
+# D
+
+# EX1:
+  
+#  tab.prior <- table(df[df$days.from.opt < 0, "campaign.id"])
+
+# EX2:
+  
+#  total <- sum(x[, 1])
+
+# E
+
+# EX1:
+  
+#  z <- 5
+
+# EX2:
+  
+#  y <- 6
+
+# F
+
+# EX1:
+  
+#  if (debug)  # Sem espaço antes e depois "debug".
+    
+#   EX2:
+  
+  # Analise de x
+  
+# x[1, ]
+
+# G
+
+# EX1:
+   
+#  qplot(movies$votes, 
+#        movies$reviews, 
+#        data = movies, 
+#        geom = c("point", "smooth"), 
+#        method = "lm", 
+#        alpha = I(1 / 5), 
+#        se = F)
+
+# H
+
+# EX1:
+  
+  
+# CalculateSampleCovariance <- function(x, y, verbose = TRUE) {
+  # Computes the sample covariance between two vectors.
+  #
+  # Args:
+  #   x: One of two vectors whose sample covariance is to be calculated.
+  #   y: The other vector. x and y must have the same length, greater than one,
+  #      with no missing values.
+  #   verbose: If TRUE, prints sample covariance; if not, not. Default is TRUE.
+  #
+  # Returns:
+  #   The sample covariance between x and y.
+#  n <- length(x)
+  # Error handling
+#  if (n <= 1 || n != length(y)) {
+#    stop("Arguments x and y have different lengths: ",
+#         length(x), " and ", length(y), ".")
+#  }
+#  if (TRUE %in% is.na(x) || TRUE %in% is.na(y)) {
+#   stop(" Arguments x and y must not have missing values.")
+#  }
+# covariance <- var(x, y)
+# if (verbose)
+#   cat("Covariance = ", round(covariance, 4), ".\n", sep = "")
+# return(covariance)
+#}
+
+# Exercicio 9
+
+# 7.3.1
+
+# Examinando e visualizando a distribuição de uma variavel categorica
+# através de código de barra:
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut))
+
+# Observando o numero de observacoes que existem para cada valor.
+
+diamonds %>% 
+  count(cut)
+
+# Examinando a distribuicao de variavel continua usando histograma:
+
+ggplot(data = diamonds) +
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.5)
+
+# Observando a quantidade de observacoes para cada valor.
+
+diamonds %>% 
+  count(cut_width(carat, 0.5))
+
+# Filtrando diamantes com quilate menor que 3. 
+
+smaller <- diamonds %>% 
+  filter(carat < 3)
+
+# Examinando a nova distribuicao usando histograma com largura de caixa menor.
+
+ggplot(data = smaller, mapping = aes(x = carat)) +
+  geom_histogram(binwidth = 0.1)
+
+# Exibindo o histograma em linhas ao inves de barras.
+
+ggplot(data = smaller, mapping = aes(x = carat, colour = cut)) +
+  geom_freqpoly(binwidth = 0.1)
+
+#7.3.2
+
+# Exibindo histograma dos diamantes filtrados, com largura de caixa menor e em barras
+
+ggplot(data = smaller, mapping = aes(x = carat)) +
+  geom_histogram(binwidth = 0.01)
+
+#Explorando as caracteriscas dos dados
+
+ggplot(data = faithful, mapping = aes(x = eruptions)) + 
+  geom_histogram(binwidth = 0.25)  # Os dados parecem estar divididos em dois clusters.
+
+#7.3.3
+
+# Identificando Outliers
+
+# Voltando aos dados dos diamantes em histograma com largura de caixa em 0,5
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = y), binwidth = 0.5)
+
+# Facilitando a visualização dos valores incomuns,
+# para isso é preciso aplicar zoom a pequenos valores do eixo y.
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = y), binwidth = 0.5) +
+  coord_cartesian(ylim = c(0, 50))
+
+# Selecionando o diamantes de quilates maior que 3 e menor que 20 e observando os preços
+
+unusual <- diamonds %>% 
+  filter(y < 3 | y > 20) %>% 
+  select(price, x, y, z) %>%
+  arrange(y)
+
+dplyr::add_count(unusual)
+
+# 7.4
+
+# Missing values 
+
+# Existem varias formas de lidar com outliers. Um delas e retirar os valores estranhos
+# da analise, a outra e substituir os valores incomuns por valores ausentes.
+
+# Retirando as linhas com valores estranhos 
+
+diamonds2 <- diamonds %>% 
+  mutate(y = ifelse(y < 3 | y > 20, NA, y))
+
+# Substituindo os valores incomuns por ausentes 
+
+diamonds2 <- diamonds %>% 
+  mutate(y = ifelse(y < 3 | y > 20, NA, y))
+
+# Mostrando o grafico dos dados com os valores incomuns substituidos 
+
+ggplot(data = diamonds2, mapping = aes(x = x, y = y)) + 
+  geom_point()  
+
+# O ggplot2 não desaparece com os valores ausentes simplesmente, ao invés disso
+# o ggplot2 não os inclui no gráfico, mas avisa que eles foram removidos.
+
+# Tirando o aviso de que os dados foram removidos
+
+ggplot(data = diamonds2, mapping = aes(x = x, y = y)) + 
+  geom_point(na.rm = TRUE)
+
+# 7.5.1- A categorical and continuous variable
+
+# Explorando a distribuicao de uma variavel contínua dividida por uma variável categorica
+
+ggplot(data = diamonds, mapping = aes(x = price)) + 
+  geom_freqpoly(mapping = aes(colour = cut), binwidth = 500)
+
+# A aparência padrão de geom_freqpoly () não é útil para esse tipo de comparação,
+# porque a altura é dada pela contagem. Isso significa que, se um dos grupos for 
+# muito menor que os outros, será difícil ver as diferenças de forma
+
+# É difícil ver a diferença na distribuição porque as contagens gerais são muito diferentes:
+
+ggplot(diamonds) + 
+  geom_bar(mapping = aes(x = cut))
+
+# Para facilitar a comparação, precisamos trocar o que é exibido no eixo y. 
+# Em vez de exibir a contagem, exibiremos densidade, que é a contagem padronizada 
+# para que a área sob cada polígono de frequência seja uma.
+
+ggplot(data = diamonds, mapping = aes(x = price, y = ..density..)) + 
+  geom_freqpoly(mapping = aes(colour = cut), binwidth = 500)
+
+# Através dessa analise e possivel observar que os diamantes de qualidade inferior
+# têm o preço médio mais alto, mas ainda nao podemos ter certeza. 
+
+# Para isso observar melhor o que acontece com esses dados, o ideal e utilizar o 
+# o grafico de caixas (boxplot). 
+
+ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +
+  geom_boxplot()
+
+# Essa observacao ampara a afirmação de que diamantes de melhor qualidade são, 
+# em média, mais baratos.
+
+# Analisando como a milhagem da rodovia varia entre as classes de carro:
+
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
+  geom_boxplot()
+
+# Colocando em ordem crescente o valor médio de milhagem:
+
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy))
+
+# Girando o grafico em 90 graus para visualizar melhor o nome das variaveis:
+
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy)) +
+  coord_flip()
+
+#7.5.2-  Two categorical variables
+
+# Para visualizar a covariância entre variáveis categóricas, é preciso contar 
+# o número de observações para cada combinação. Uma maneira de fazer isso é utilizar
+# é o geom_point():
+
+ggplot(data = diamonds) +
+  geom_count(mapping = aes(x = cut, y = color))
+
+# O tamanho de cada círculo no gráfico exibe quantas observações ocorreram em cada
+# combinação de valores. A covariação aparecerá como uma forte correlação entre 
+# valores específicos de x e valores específicos de y.
+
+# Outra abordagem é calcular a contagem:
+
+diamonds %>% 
+  count(color, cut)
+
+# Visualizando com com geom_tile () e a estética de preenchimento:
+
+diamonds %>% 
+  count(color, cut) %>%  
+  ggplot(mapping = aes(x = color, y = cut)) +
+  geom_tile(mapping = aes(fill = n))
+
+# 7.5.3 Two continuous variables
+
+# Observando covariação como um padrão de pontos
+
+ggplot(data = diamonds) +
+  geom_point(mapping = aes(x = carat, y = price))
+
+# Adicionando transparencia no gráfico  
+
+ggplot(data = diamonds) + 
+  geom_point(mapping = aes(x = carat, y = price), alpha = 1 / 100)
+
+# Quando a base de dados e muito grande podemos utilizar geom_bin2d () 
+# e geom_hex () para juntar as duas dimensões.
+
+# Utilizando geom_bin2d ()
+
+ggplot(data = smaller) +
+  geom_bin2d(mapping = aes(x = carat, y = price))
+
+# install.packages("hexbin")
+
+install.packages("hexbin")
+
+# Utilizando geom_hex ()
+
+ggplot(data = smaller) +
+  geom_hex(mapping = aes(x = carat, y = price))
+
+# Outra opção é transformar uma variável contínua para que ela funcione como
+# uma variável categórica.
+
+# Exibindo um Boxplot para cada grupo criado para categoria de quilates. 
+
+ggplot(data = smaller, mapping = aes(x = carat, y = price)) + 
+  geom_boxplot(mapping = aes(group = cut_width(carat, 0.1)))
+
+# Outra abordagem é exibir aproximadamente o mesmo número de pontos em cada grupo.
+
+ggplot(data = smaller, mapping = aes(x = carat, y = price)) + 
+  geom_boxplot(mapping = aes(group = cut_number(carat, 20)))
+
+# 7.6 Patterns and models
+
+# Observando a dispersão dos tempos de erupção Old Faithful versus o tempo 
+# de espera entre erupções mostra um padrão: tempos de espera mais longos estão 
+# associados a erupções mais longas.
+
+ggplot(data = faithful) + 
+  geom_point(mapping = aes(x = eruptions, y = waiting))
+
+# O código a seguir se ajusta a um modelo que prevê preço de quilate e, em seguida, 
+# calcula os resíduos (a diferença entre o valor previsto e o valor real). 
+# Os resíduos nos dão uma visão do preço do diamante, uma vez que o efeito de um 
+# quilate foi removido.
+
+library(modelr)
+
+mod <- lm(log(price) ~ log(carat), data = diamonds)
+
+diamonds2 <- diamonds %>% 
+  add_residuals(mod) %>% 
+  mutate(resid = exp(resid))
+
+ggplot(data = diamonds2) + 
+  geom_point(mapping = aes(x = carat, y = resid))
+
+# Uma vez que se removeu a forte relação entre o quilate e o preço, você pode ver o 
+# que espera da relação entre corte e preço: em relação ao tamanho, diamantes de melhor
+# qualidade são mais caros.
+
+ggplot(data = diamonds2) + 
+  geom_boxplot(mapping = aes(x = cut, y = resid))
+
+# 7.7 ggplot2 calls
+
+# Exemplo de expressão mais concisa do código ggplot2
+
+ggplot(data = faithful, mapping = aes(x = eruptions)) + 
+  geom_freqpoly(binwidth = 0.25)
+
+# Reescrevendo de uma maneira ainda mais concisa:
+
+ggplot(faithful, aes(eruptions)) + 
+  geom_freqpoly(binwidth = 0.25)
+
+# Exemplo da mudança de a transição de%>% para +. 
+# Infelizmente isso e necessario porque o ggplot2 foi criado antes do pipe ser descoberto.
+
+diamonds %>% 
+  count(cut, clarity) %>% 
+  ggplot(aes(clarity, cut, fill = n)) + 
+  geom_tile()
+
+# Exercicio 10
+
+#Acessando diretorio
+setwd("C:\\Users\\karla\\Documents\\GitHub\\Lista_6_UFPE")
+
+# Abrindo arquivo
+
+load("vote_growth_usa.RData")
+
+# Realizando regressão
+
+reg <- lm(Vote ~ Growth, data = bd)
+
+# Obtendo resultado
+
+summary(reg)
+
+# Call:
+# lm(formula = Vote ~ Growth, data = bd)
+
+# Residuals:
+#  Min      1Q  Median      3Q     Max 
+# -8.1968 -3.7667 -0.7972  3.1294 10.0107 
+
+# Coefficients:
+#  Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)  51.5082     0.8569  60.110  < 2e-16 ***
+#  Growth        0.6249     0.1577   3.962  0.00039 ***
+ ---
+#  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# Residual standard error: 4.955 on 32 degrees of freedom
+# Multiple R-squared:  0.3291,	Adjusted R-squared:  0.3081 
+# F-statistic:  15.7 on 1 and 32 DF,  p-value: 0.0003898
+
+# Exercicio 11
+  
+# Realizando 
+
+reg11 <- lm (Vote[1:15] ~ Growth[1:15], data = bd)
+
+summary(reg11)
+
+# Call:
+# lm(formula = Vote[1:15] ~ Growth[1:15], data = bd)
+
+# Residuals:
+#  Min      1Q  Median      3Q     Max 
+# -9.7209 -3.5931  0.5013  3.1253  9.3127 
+
+# Coefficients:
+#  Estimate Std. Error t value Pr(>|t|)    
+# (Intercept)   51.9850     1.5371  33.821 4.66e-14 ***
+#  Growth[1:15]   0.5336     0.2366   2.255    0.042 *  
+  ---
+#  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# Residual standard error: 5.638 on 13 degrees of freedom
+# Multiple R-squared:  0.2811,	Adjusted R-squared:  0.2258 
+# F-statistic: 5.083 on 1 and 13 DF,  p-value: 0.04205
+  
+# a) P- valor
+  
+  # P- valor para modelo com todos os casos (modelo1):0.0003898
+  
+  # P- valor para modelo com os casos do período de 1876 a 1932 (modelo2): 0.04205.
+
+# De acordo com o que é estabelecido como resultados significantes, tanto o P- valor
+# do modelo 1, quanto o P- valor do modelo 2 são significantes. Contudo, o modelo 2
+# apresenta um valor muito maior que o modelo 1 e muito proximo de 0,05. O que significa
+# que ele não seja de fato significante. 
+
+  
+# b)
+# Intervalo de confianca para B com o modelo com todos os casos (modelo1), sendo B 0,6249.
+  
+0.6249 + 0.1577*2  # Beta mais duas vezes o desvio padrão.
+
+# Resultado: 0.9403
+
+0.6249 - 0.1577*2  # Beta menos duas vezes o desvio padrão.
+
+# Resultado: 0.3095
+
+# Intervalo para modelo com todos os casos: [0.3095- 0.9403]
+
+# Intervalo de confianca para B com o modelo com os casos do período de 1876 a 1932 (modelo2).
+
+0.5336 + 0.2366* 2  # Beta mais duas vezes o desvio padrão.
+
+# Resultado: 1.0068 
+
+0.5336 - 0.2366* 2  # Beta menos duas vezes o desvio padrão.
+
+# Resultado: 0.0604
+
+# Intervalo para modelo com os casos do período de 1876 a 1932 : [0.0604- 1.0068]
+
+# Temos 95% de "chance" do intervalo conter o verdadeiro valor da média populacional.
+# Desta forma, o intervalo para o modelo 1 é maior que o intervalo para o modelo 2. 
+
+# c) 
+
+# R2
+
+# R2 do modelo 1: 0.3291
+
+# R2 do modelo 2: 0.2811.
+
+# R², é uma medida de ajustamento de um modelo estatístico linear, como a regressão linear,
+# em relação aos valores observados. O R² varia entre 0 e 1, indicando, em percentagem, 
+# o quanto o modelo consegue explicar os valores observados.
+# comparando o R2 dos dois modelos, o modelo que mais explica a variavel dependente é o modelo 1.
+ 
+# Erro padrao 
+
+# Erro padrao do modelo 1: 4.955
+
+# Erro padrao do modelo 2: 5.638
+
+# Distância média entre os pontos e a linha do modelo expressa na unidade de medida 
+# da variável dependente. Comparando os modelos, o modelo 2 apresenta um erro padrao 
+# maior que o modelo 1. E dado que a competitividade eleitoral e alta esses percentuais nao sao um bom resultado.
