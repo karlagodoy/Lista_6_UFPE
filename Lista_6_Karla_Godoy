@@ -57,66 +57,66 @@ require(ggplot2)
 # A
 
 # EX1:
-  
+
 #  Lista_6_Karla_Godoy.R
 
 # EX2:
-  
+
 #  Vote_growth_USA.R
 
 # B
 
 # EX1:
-  
+
 #  vote.usa
 
 # EX2:
-  
+
 #  voteUsa
 
 # C
 
 # EX1:
-  
+
 #  ggplot(mtcars) + 
 #  geom_boxplot(aes(x = as.factor(cyl), y = mpg))
 
 # D
 
 # EX1:
-  
+
 #  tab.prior <- table(df[df$days.from.opt < 0, "campaign.id"])
 
 # EX2:
-  
+
 #  total <- sum(x[, 1])
 
 # E
 
 # EX1:
-  
+
 #  z <- 5
 
 # EX2:
-  
+
 #  y <- 6
 
 # F
 
 # EX1:
-  
+
 #  if (debug)  # Sem espaço antes e depois "debug".
-    
+
 #   EX2:
-  
-  # Analise de x
-  
+
+# Analise de x
+
 # x[1, ]
 
 # G
 
 # EX1:
-   
+
 #  qplot(movies$votes, 
 #        movies$reviews, 
 #        data = movies, 
@@ -128,21 +128,21 @@ require(ggplot2)
 # H
 
 # EX1:
-  
-  
+
+
 # CalculateSampleCovariance <- function(x, y, verbose = TRUE) {
-  # Computes the sample covariance between two vectors.
-  #
-  # Args:
-  #   x: One of two vectors whose sample covariance is to be calculated.
-  #   y: The other vector. x and y must have the same length, greater than one,
-  #      with no missing values.
-  #   verbose: If TRUE, prints sample covariance; if not, not. Default is TRUE.
-  #
-  # Returns:
-  #   The sample covariance between x and y.
+# Computes the sample covariance between two vectors.
+#
+# Args:
+#   x: One of two vectors whose sample covariance is to be calculated.
+#   y: The other vector. x and y must have the same length, greater than one,
+#      with no missing values.
+#   verbose: If TRUE, prints sample covariance; if not, not. Default is TRUE.
+#
+# Returns:
+#   The sample covariance between x and y.
 #  n <- length(x)
-  # Error handling
+# Error handling
 #  if (n <= 1 || n != length(y)) {
 #    stop("Arguments x and y have different lengths: ",
 #         length(x), " and ", length(y), ".")
@@ -461,18 +461,24 @@ summary(reg)
 #  Estimate Std. Error t value Pr(>|t|)    
 # (Intercept)  51.5082     0.8569  60.110  < 2e-16 ***
 #  Growth        0.6249     0.1577   3.962  0.00039 ***
- ---
-#  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-# Residual standard error: 4.955 on 32 degrees of freedom
-# Multiple R-squared:  0.3291,	Adjusted R-squared:  0.3081 
-# F-statistic:  15.7 on 1 and 32 DF,  p-value: 0.0003898
-
-# Exercicio 11
+---
+  #  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
   
-# Realizando 
+  # Residual standard error: 4.955 on 32 degrees of freedom
+  # Multiple R-squared:  0.3291,	Adjusted R-squared:  0.3081 
+  # F-statistic:  15.7 on 1 and 32 DF,  p-value: 0.0003898
 
-reg11 <- lm (Vote[1:15] ~ Growth[1:15], data = bd)
+# Plotar dados e reta de regressão sem IC:
+  ggplot(data = bd, aes(y = Vote, x = Growth)) +
+  geom_point(color = "grey") +
+  theme_classic() +
+  geom_smooth(method="lm", color = "salmon", se = FALSE)
+    
+  # Exercicio 11
+  
+  # Realizando 
+  
+  reg11 <- lm (Vote[1:15] ~ Growth[1:15], data = bd)
 
 summary(reg11)
 
@@ -487,28 +493,29 @@ summary(reg11)
 #  Estimate Std. Error t value Pr(>|t|)    
 # (Intercept)   51.9850     1.5371  33.821 4.66e-14 ***
 #  Growth[1:15]   0.5336     0.2366   2.255    0.042 *  
-  ---
-#  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-# Residual standard error: 5.638 on 13 degrees of freedom
-# Multiple R-squared:  0.2811,	Adjusted R-squared:  0.2258 
-# F-statistic: 5.083 on 1 and 13 DF,  p-value: 0.04205
+---
+  #  Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
   
-# a) P- valor
+  # Residual standard error: 5.638 on 13 degrees of freedom
+  # Multiple R-squared:  0.2811,	Adjusted R-squared:  0.2258 
+  # F-statistic: 5.083 on 1 and 13 DF,  p-value: 0.04205
+  
+  # a) P- valor
   
   # P- valor para modelo com todos os casos (modelo1):0.0003898
   
   # P- valor para modelo com os casos do período de 1876 a 1932 (modelo2): 0.04205.
 
-# De acordo com o que é estabelecido como resultados significantes, tanto o P- valor
-# do modelo 1, quanto o P- valor do modelo 2 são significantes. Contudo, o modelo 2
-# apresenta um valor muito maior que o modelo 1 e muito proximo de 0,05. O que significa
-# que ele não seja de fato significante. 
+# De acordo com o que é estabelecido como resultados significantes, tanto o P- valor do modelo 1, 
+# quanto o P- valor do modelo 2 são significantes. Contudo, o modelo 2 apresenta um valor muito maior
+# que o modelo 1 e muito proximo de 0,05. O que indica que talvez ele não seja significante. Para o modelo 1 
+# a hipótese nula poderia ser rejeitada, já para o modelo 2 eu ficaria iinsegura em rejeitar a hipótese nula 
+# baseada apenas no valor do P-valor 
 
-  
+
 # b)
 # Intervalo de confianca para B com o modelo com todos os casos (modelo1), sendo B 0,6249.
-  
+
 0.6249 + 0.1577*2  # Beta mais duas vezes o desvio padrão.
 
 # Resultado: 0.9403
@@ -546,7 +553,7 @@ summary(reg11)
 # em relação aos valores observados. O R² varia entre 0 e 1, indicando, em percentagem, 
 # o quanto o modelo consegue explicar os valores observados.
 # comparando o R2 dos dois modelos, o modelo que mais explica a variavel dependente é o modelo 1.
- 
+
 # Erro padrao 
 
 # Erro padrao do modelo 1: 4.955
